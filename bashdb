@@ -29,6 +29,6 @@ _libdir="."
 _debugfile=$_tmpdir/bashdb.$$ # temporary file to store generated script
 
 # copy script and header to tmp location then execute
-cat $_libdir/bashdb.head $_guineapig > $_debugfile
+cat $_libdir/header.sh $_guineapig > $_debugfile
 
 exec bash $_debugfile $_guineapig $_tmpdir $_libdir "$@"

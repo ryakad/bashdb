@@ -16,7 +16,7 @@ _libdir=$3
 
 shift 3
 
-source $_libdir/bashdb.fns
+source $_libdir/functions.sh
 _linebp=
 let _trace=0
 let _i=1
