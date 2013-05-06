@@ -55,7 +55,7 @@ function _command_loop()
 				_setbp $args ;;
 			cb)
 				# clear one of the break points
-				_clearbp ;;
+				_clearbp $args ;;
 			ds)
 				# display the script we are working with
 				_displayscript ;;
@@ -136,6 +136,7 @@ function _clearbp()
 
 	if [ -z "$1" ]; then
 		unset _linebp[*]
+        echo "Breakpoints cleared"
 	elif [ $(echo $1 | grep '^[0-9]*') ]; then
 		bps=($(echo $(for i in ${_linebp[*]}; do
 			if (( $1 != $i )); then
