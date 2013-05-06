@@ -11,33 +11,38 @@ function _step_trap()
 {
 	_current_line=$1
 
-	(( $_trace )) && _print_message "$PS4 line $_current_line: ${_lines[$_current_line]}"
 
-	if (( $_steps >= 0 )); then
-		let _steps="$_steps -1"
-	fi
+    if (( $_steps >= 0 )); then
+        let _steps=$(($_steps - 1))
+    fi
 
-	# check if we have reached one of our breakpoints
-	if _at_linenumber; then
-		_print_message "Reached breakpoint at line $_current_line"
-		_print_message "#_current_line: $_lines[$_current_line]"
-		_command_loop
-	elif [ -n "$_break_condition" ]; then
-		_print_message "Break condition $_break_condition true at line $_current_line"
-		_command_loop
-	else
-		_print_message "Stopped at line $_current_line"
-		_command_loop
-	fi
+    # check if we have reached one of our breakpoints
+    if _at_linenumber; then
+        _print_message "Reached breakpoint!"
+        _show_trace
+        _command_loop
+    elif [ -n "$_break_condition" ]; then
+        _print_message "Break condition $_break_condition true"
+        _show_trace
+        _command_loop
+    else
+        _show_trace
+        _command_loop
+    fi
 }
 
+# show the trace message if we are in trace mode.
+function _show_trace()
+{
+	(( $_trace )) && _print_message "$PS4 : ${_lines[$_current_line]}"
+}
 
 # The main command loop
 function _command_loop()
 {
 	local cmd args
 
-	while read -e -p "bashdb> " cmd args; do
+	while read -e -p "@$_current_line> " cmd args; do
 		case $cmd in
 			\?|h)
 				# display the menu
