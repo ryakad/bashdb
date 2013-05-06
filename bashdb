@@ -6,29 +6,27 @@
 # 
 # Author: Ryan Kadwell <ryan@riaka.ca>
 
-echo 'bash debugger version 1.0-alpha'
+echo 'bash debugger version alpha'
 
 _dbname=${0##*/}
-
-if (( $# < 1 )); then
-	echo "$_dbname: usage: $_dbname filename" >&2
-	exit 1
-fi
-
 _guineapig=$1
-
-if [ ! -r $1 ]; then
-	echo "$_dbname: Cannot read file '$_guineapig'." >&2
-	exit 1
-fi
-
-shift
-
 _tmpdir=/tmp
 _libdir="."
 _debugfile=$_tmpdir/bashdb.$$ # temporary file to store generated script
 
+if (( $# < 1 )); then
+    echo "$_dbname: usage: $_dbname filename" >&2
+    exit 1
+fi
+
+echo $_guineapig;
+
+if [ ! -r $_guineapig ]; then
+    echo "$_dbname: Cannot read file '$_guineapig'." >&2
+    exit 1
+fi
+
+shift
 # copy script and header to tmp location then execute
 cat $_libdir/header.sh $_guineapig > $_debugfile
-
 exec bash $_debugfile $_guineapig $_tmpdir $_libdir "$@"
