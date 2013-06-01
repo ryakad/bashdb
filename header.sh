@@ -26,8 +26,8 @@ OLDIFS=$IFS
 IFS=$'\n'
 tmplines=( $(cat "$_guineapig") )
 for line in "${tmplines[@]}"; do
-	_lines[$_i]=$line;
-	let _i=$(($_i+1))
+    _lines[$_i]=$line;
+    let _i=$(($_i+1))
 done
 IFS=$OLDIFS
 
